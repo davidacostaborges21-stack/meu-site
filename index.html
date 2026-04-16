@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davi.dev</title>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #0f0f0f, #000);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
+header {
+    display:flex;
+    justify-content:space-between;
+    padding:20px 60px;
+    position:fixed;
+    width:100%;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    z-index:1000;
+}
+
+.logo {
+    color:#00ff88;
+    font-weight:bold;
+    font-size:22px;
+}
+
+nav a {
+    margin-left:25px;
+    cursor:pointer;
+    color:white;
+    text-decoration:none;
+    position:relative;
+}
+
+nav a::after {
+    content:"";
+    position:absolute;
+    width:0%;
+    height:2px;
+    background:#00ff88;
+    bottom:-5px;
+    left:0;
+    transition:0.3s;
+}
+
+nav a:hover::after {
+    width:100%;
+}
+
+/* HERO */
+.hero {
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.hero h1 {
+    font-size:60px;
+}
+
+.hero span {
+    color:#00ff88;
+}
+
+.hero p {
+    margin-top:10px;
+    opacity:0.7;
+}
+
+.btn {
+    margin-top:25px;
+    padding:15px 30px;
+    background:#00ff88;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover {
+    box-shadow:0 0 20px #00ff88;
+    transform:scale(1.05);
+}
+
+/* SECTIONS */
+.section {
+    padding:120px 20px;
+    text-align:center;
+    display:none;
+    animation:fade 0.5s ease;
+}
+
+@keyframes fade {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+.active { display:block; }
+
+.card {
+    background:rgba(255,255,255,0.05);
+    padding:40px;
+    border-radius:15px;
+    max-width:500px;
+    margin:auto;
+    backdrop-filter: blur(10px);
+    box-shadow:0 0 30px rgba(0,255,136,0.1);
+}
+
+/* PARTICULAS */
+canvas {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>
+    <div class="logo">Davi.dev</div>
+    <nav>
+        <a onclick="trocar('inicio')">Início</a>
+        <a onclick="trocar('sobre')">Sobre</a>
+        <a onclick="trocar('contato')">Contato</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<div id="inicio" class="section active">
+    <div class="hero">
+        <div>
+            <h1>Eu sou <span>Davi</span> 🚀</h1>
+            <p>Primeiro site... mas já parecendo startup de bilhões 😎</p>
+            <button class="btn" onclick="alert('Partiu dominar a internet 🔥')">Explorar</button>
+        </div>
+    </div>
+</div>
+
+<!-- SOBRE -->
+<div id="sobre" class="section">
+    <div class="card">
+        <h2>Sobre</h2>
+        <p>Esse é meu primeiro site criado do zero com HTML, CSS e JavaScript. Ainda estou aprendendo, mas já dá pra ver que o nível tá evoluindo rápido 😎🔥</p>
+    </div>
+</div>
+
+<!-- CONTATO -->
+<div id="contato" class="section">
+    <div class="card">
+        <h2>Contato</h2>
+        <p>Telefone: (11) 99999-9999</p>
+    </div>
+</div>
+
+<script>
+function trocar(secao) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(secao).classList.add('active');
+}
+
+/* PARTICULAS */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2,
+        d:Math.random()*1
+    });
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="rgba(0,255,136,0.7)";
+
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+
+        p.y += p.d;
+        if(p.y>canvas.height) p.y=0;
+    });
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
